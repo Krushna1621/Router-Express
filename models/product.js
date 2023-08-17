@@ -10,9 +10,16 @@ const p = path.join(
 const getProductsFromFile = cb => {
   fs.readFile(p, (err, fileContent) => {
     if (err) {
-      cb([]);
+      console.error(err); // Log the error for debugging purposes
+      cb([]); // Consider handling this scenario more explicitly
     } else {
-      cb(JSON.parse(fileContent));
+      try {
+        const products = JSON.parse(fileContent);
+        cb(products);
+      } catch (parseError) {
+        console.error(parseError); // Log the parse error for debugging purposes
+        cb([]); // Handle the parse error scenario
+      }
     }
   });
 };
